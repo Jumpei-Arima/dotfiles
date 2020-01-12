@@ -1,0 +1,89 @@
+if &compatible
+  set nocompatible
+endif
+
+let s:dein_dir = expand('~/dotfiles/vim/rc/plugins')
+let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
+
+execute 'set runtimepath+=' . s:dein_repo_dir
+
+if dein#load_state(s:dein_dir)
+  call dein#begin(s:dein_dir)
+
+  let g:rc_dir    = expand('~/dotfiles/vim/rc')
+  let s:toml      = g:rc_dir . '/dein.toml'
+  let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
+
+  call dein#load_toml(s:toml,      {'lazy': 0})
+  call dein#load_toml(s:lazy_toml, {'lazy': 1})
+
+  call dein#end()
+  call dein#save_state()
+endif
+
+filetype plugin indent on
+syntax enable
+
+"" 基本設定
+set encoding=utf-8 "ファイルエンコード
+set fenc=utf-8
+scriptencoding utf-8
+set nobackup "バックアップを作成しない
+set noswapfile "スワップファイルを作成しない
+set noerrorbells "エラーメッセージの表示時にビープ音を鳴らさない
+set history=10000 "コマンドラインの履歴を10000件保存する
+set wildmenu "コマンドラインを拡張モードに
+set backspace=indent,eol,start "挿入モードでバックスペースで削除できるようにする
+set clipboard=unnamed,autoselect "クリップボードの共有
+set autoread "編集中のファイルが変更されたら自動で読み直す
+set hidden "バッファが編集中でもその他のファイルを開けるように
+
+"表示
+syntax on "カラー設定を有効に
+colorscheme molokai
+set background=dark
+set title "タイトルを表示
+set number "行番号を表示
+set cursorline "現在の行を強調表示
+set virtualedit=onemore "行末の１文字先までカーソルを移動できるようにする
+set showmatch "括弧入力時に対応する括弧を表示
+set laststatus=2 "ステータスラインを常に表示
+
+"Tab系
+set list listchars=tab:\▸\- " 不可視文字を可視化
+set expandtab "入力モードでTabキー押下時に半角スペースを挿入
+set tabstop=4 "ファイル内にあるタブ文字の表示幅
+set shiftwidth=4 "インデント幅
+set softtabstop=4 "Tabキー押下時に挿入される文字幅を指定
+set autoindent "オートインデント
+set smartindent "改行時に入力された行の末尾に合わせて次の行のインデントを増減する
+
+"検索
+set ignorecase "検索のときに大文字小文字を区別しない
+set smartcase "検索のときに大文字が含まれている場合は区別して検索する
+set incsearch "検索ワードの最初の文字を入力した時点で検索が開始
+set wrapscan "最後まで検索したら先頭に戻る
+set hlsearch "検索結果をハイライト表示
+ "Escの2回押しでハイライト消去
+nmap <ESC><ESC> :nohlsearch<CR><ESC>
+
+"操作
+set whichwrap=b,s,h,l,<,>,[,],~ " 行をまたいで移動
+ "jキーを二度押しでEscキー
+inoremap <silent> jj <Esc>
+"折り返し時に表示行単位での移動できるようにす
+nnoremap j gj
+nnoremap k gk
+" space w で保存
+nnoremap <Space>w :w<Enter>
+" space q で終了
+nnoremap <Space>q :q<Enter>
+
+" vim-airline
+let g:airline_theme = 'luna'
+
+" nerdtree
+"隠しファイルをデフォルトで表示
+let NERDTreeShowHidden = 1
+"キーマップ。（ctrl+nで起動できるように）
+map <C-n> :NERDTreeToggle<CR>
