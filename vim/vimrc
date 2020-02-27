@@ -79,6 +79,12 @@ nnoremap <Space>w :w<Enter>
 " space q で終了
 nnoremap <Space>q :q<Enter>
 
+" undo
+if has('persistent_undo')
+    set undodir=~/dotfiles/vim/undo
+    set undofile
+endif
+
 " vim-airline
 let g:airline_theme = 'luna'
 
