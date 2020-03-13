@@ -1,0 +1,63 @@
+{
+    "python.pythonPath": "/home/amsl/.pyenv/versions/3.6.8/bin/python",
+
+    "python.linting.pylintArgs": [
+        "--errors-only",
+        "--generated-members=numpy.* ,torch.*"
+    ],
+
+    "git.autofetch": true,
+    
+    "editor.insertSpaces": true,
+    "editor.tabSize": 4,
+
+    "vim.easymotion": true,
+    "vim.sneak": true,
+    "vim.incsearch": true,
+    "vim.useSystemClipboard": true,
+    "vim.useCtrlKeys": true,
+    "vim.hlsearch": true,
+    "vim.visualstar": true,
+    "vim.insertModeKeyBindings": [
+        {
+            "before": ["j", "j"],
+            "after": ["<Esc>"]
+        }
+    ],
+    "vim.leader": "<space>",
+    "vim.normalModeKeyBindings": [
+        {
+            "before": ["leader","w"],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.files.save",
+                    "args": []
+                }
+            ]
+        },
+        {
+            "before": ["leader","q"],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.closeActiveEditor",
+                    "args": []
+                }
+            ]
+        },
+        {
+            "before": ["leader","s"],
+            "after": [],
+            "commands": [
+                {
+                    "command": "workbench.action.splitEditor",
+                    "args": []
+                }
+            ]
+        }
+    ],
+    "window.zoomLevel": 0,
+    "workbench.startupEditor": "newUntitledFile",
+    "C_Cpp.updateChannel": "Insiders"
+}
