@@ -2,7 +2,7 @@ if &compatible
   set nocompatible
 endif
 
-let s:dein_dir = expand('~/dotfiles/vim/rc/plugins')
+let s:dein_dir = expand('~/.dotfiles/vim/rc/plugins')
 let s:dein_repo_dir = s:dein_dir . '/repos/github.com/Shougo/dein.vim'
 
 execute 'set runtimepath+=' . s:dein_repo_dir
@@ -10,7 +10,7 @@ execute 'set runtimepath+=' . s:dein_repo_dir
 if dein#load_state(s:dein_dir)
   call dein#begin(s:dein_dir)
 
-  let g:rc_dir    = expand('~/dotfiles/vim/rc')
+  let g:rc_dir    = expand('~/.dotfiles/vim/rc')
   let s:toml      = g:rc_dir . '/dein.toml'
   let s:lazy_toml = g:rc_dir . '/dein_lazy.toml'
 
@@ -71,6 +71,7 @@ nmap <ESC><ESC> :nohlsearch<CR><ESC>
 set whichwrap=b,s,h,l,<,>,[,],~ " 行をまたいで移動
  "jキーを二度押しでEscキー
 inoremap <silent> jj <Esc>
+inoremap <silent> っj <Esc>
 "折り返し時に表示行単位での移動できるようにす
 nnoremap j gj
 nnoremap k gk
@@ -81,7 +82,7 @@ nnoremap <Space>q :q<Enter>
 
 " undo
 if has('persistent_undo')
-    set undodir=~/dotfiles/vim/undo
+    set undodir=~/.dotfiles/vim/undo
     set undofile
 endif
 
