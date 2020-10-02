@@ -12,5 +12,13 @@
 open vim and install dein
 `:call dein#install()`
 
+### vim version update
+
+```
+sudo add-apt-repository ppa:jonathonf/vim
+sudo apt update
+sudo apt install vim
+```
+
 ## vscode on mac
 `$ ln -sf ~/.dotfiles/code/settings.json ~/.config/Code/User/settings.json`
