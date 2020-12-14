@@ -24,6 +24,10 @@ endif
 filetype plugin indent on
 syntax enable
 
+if dein#check_install()
+    call dein#install()
+endif
+
 "" 基本設定
 set encoding=utf-8 "ファイルエンコード
 set fenc=utf-8
