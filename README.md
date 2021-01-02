@@ -3,7 +3,7 @@
 ## installation
 `$ git clone https://github.com/Jumpei-Arima/dotfiles.git ~/.dotfiles`
 
-`$ cd ./dotfiles`
+`$ cd ~/.dotfiles`
 
 `$ sh ./install.sh`
 
