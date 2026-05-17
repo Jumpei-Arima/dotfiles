@@ -56,6 +56,10 @@ return packer.startup(function(use)
     use({ "sindrets/diffview.nvim" })
     use({ "github/copilot.vim" })
 
+    -- Markdown preview
+    use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+    use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", ft = { "markdown" } })
+
 	-- Automatically set up your configuration after cloning packer.nvim
 	-- Put this at the end after all plugins
 	if PACKER_BOOTSTRAP then

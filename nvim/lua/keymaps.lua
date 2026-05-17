@@ -14,3 +14,9 @@ keymap("n", "<Space>q",  ":<C-u>q<Return>", opts)
 keymap("n", "<Esc><Esc>", ":<C-u>set nohlsearch<Return>", opts)
 keymap("i", "jj", "<ESC>", opts)
 keymap("i", "JJ", "<ESC>", opts)
+
+-- NvimTree
+keymap("n", "<C-n>", ":<C-u>NvimTreeToggle<Return>", opts)
+
+-- Markdown preview
+keymap("n", "<Space>m", ":<C-u>MarkdownPreviewToggle<Return>", opts)
