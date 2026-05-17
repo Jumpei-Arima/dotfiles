@@ -9,24 +9,46 @@
 | `starship/starship.toml` | Starship prompt configuration |
 | `nvim/` | Full Neovim configuration |
 
-## Prerequisites
+## Prerequisites & Installation
 
-- Homebrew
-- `git`
-- `neovim`
-- `starship`
-- `ghostty`
-- `zsh-autosuggestions`
-- `zsh-syntax-highlighting`
+### macOS
 
 ```zsh
 /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
 brew install git neovim starship ghostty zsh-autosuggestions zsh-syntax-highlighting
 ```
 
+### Ubuntu
+
+**Zsh**
+```bash
+sudo apt-get install -y zsh zsh-autosuggestions zsh-syntax-highlighting
+chsh -s $(which zsh)
+```
+
+**Ghostty**
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/mkasberg/ghostty-ubuntu/HEAD/install.sh)"
+```
+
+**Starship**
+```bash
+curl -sS https://starship.rs/install.sh | sh
+```
+
+**Neovim**
+```bash
+wget https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+sudo rm -rf /opt/nvim
+sudo tar -C /opt -xzf nvim-linux-x86_64.tar.gz
+rm nvim-linux-x86_64.tar.gz
+```
+
 ## Setup
 
-```zsh
+Clone and symlink configs (same for both platforms):
+
+```bash
 git clone https://github.com/Jumpei-Arima/dotfiles ~/.dotfiles
 cd ~/.dotfiles
 
@@ -41,6 +63,5 @@ On first launch, Neovim automatically installs `packer.nvim` and syncs plugins.
 
 ## Notes
 
-- `zsh/.zshrc` loads `~/.config/zsh/hidden/*.zsh`, so you can keep machine-specific settings or secrets outside Git.
 - Ghostty includes keybindings for pane navigation, splitting, and resizing.
 - Starship is themed to show Git status and active language runtimes.
