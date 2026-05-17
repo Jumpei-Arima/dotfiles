@@ -31,3 +31,6 @@ bindkey "^[[B" down-line-or-beginning-search
 
 #### Make word deletion stop at path separators, etc.
 WORDCHARS=''
+
+### Aliases #####
+alias pbcopy='xsel --clipboard --input'

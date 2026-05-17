@@ -20,6 +20,11 @@ brew install git neovim starship ghostty zsh-autosuggestions zsh-syntax-highligh
 
 ### Ubuntu
 
+**xcel**
+```bash
+sudo apt-get install -y xcel
+```
+
 **Zsh**
 ```bash
 sudo apt-get install -y zsh zsh-autosuggestions zsh-syntax-highlighting
