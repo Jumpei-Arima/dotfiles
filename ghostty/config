@@ -1,8 +1,8 @@
 # =========================
 # Appearance 
 # =========================
-font-size = 18 
-theme = Atom
+font-size = 10
+theme = TokyoNight
 palette = 8=#626880
 cursor-style = block
 mouse-hide-while-typing = true
@@ -30,12 +30,6 @@ keybind = ctrl+k=goto_split:up
 keybind = ctrl+l=goto_split:right
 
 # =========================
-# Pane splitting
-# =========================
-keybind = ctrl+shift+v=new_split:right
-keybind = ctrl+shift+h=new_split:down
-
-# =========================
 # Close pane
 # =========================
 keybind = ctrl+x=close_surface
@@ -43,10 +37,10 @@ keybind = ctrl+x=close_surface
 # =========================
 # Resize panes
 # =========================
-keybind = ctrl+comma=resize_split:left,10
-keybind = ctrl+period=resize_split:right,10
-keybind = ctrl+semicolon=resize_split:down,10
-keybind = ctrl+apostrophe=resize_split:up,10
+keybind = ctrl+shift+[=resize_split:left,10
+keybind = ctrl+shift+]=resize_split:right,10
+keybind = ctrl+shift+semicolon=resize_split:down,10
+keybind = ctrl+shift+apostrophe=resize_split:up,10
 
 # =========================
 # scroll up/down 
@@ -54,3 +48,9 @@ keybind = ctrl+apostrophe=resize_split:up,10
 keybind = ctrl+shift+k=scroll_page_lines:-3
 keybind = ctrl+shift+j=scroll_page_lines:3
 
+# =========================
+# Copy / Paste
+# =========================
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+clipboard-paste-protection = false
