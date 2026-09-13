@@ -1,7 +1,7 @@
-# dotfiles — Phase 2
+# dotfiles
 
 Ghostty, Zsh, Starship, Herdr and Neovim configuration with a non-overwriting
-GNU Stow installer. Phase 2 moves Neovim to lazy.nvim and adds language servers,
+GNU Stow installer. Neovim uses lazy.nvim and includes language servers,
 completion, formatting, Git helpers, session restore and SSH clipboard support.
 The original visual style and core keymaps remain in place.
 
@@ -18,8 +18,8 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-Use the branch containing Phase 2 until it is merged into `develop`. If a checkout
-already exists, use it instead of cloning over it; inspect `git status` first.
+If a checkout already exists, use it instead of cloning over it; inspect
+`git status` first.
 Keep the checkout at its final location: installed links depend on it.
 
 `install.sh` provisions only installer dependencies. Pixi locks Perl, Make and
@@ -128,7 +128,7 @@ settings. Keep credentials out of Git. A migration should preserve local setting
 in that file (mode 600) and back up the original `.zshrc` first. Do not copy an old
 common-config loader into `.zshrc.local` if it would load the shared settings twice.
 
-## Neovim Phase 2
+## Neovim
 
 Neovim 0.12 or newer is required. lazy.nvim installs plugins on the first launch
 and `nvim/lazy-lock.json` pins the tested revisions. Mason then installs language
