@@ -20,10 +20,21 @@ vim.g.loaded_netrwPlugin = 1
 vim.opt.termguicolors = true
 require("nvim-tree").setup()
 
-local ts_ok, ts = pcall(require, "nvim-treesitter.configs")
-if ts_ok then
-    ts.setup({
-        ensure_installed = { "markdown", "markdown_inline" },
-        highlight = { enable = true },
+if vim.fn.has("nvim-0.12") == 1 then
+    vim.api.nvim_create_autocmd("FileType", {
+        pattern = "markdown",
+        callback = function(event)
+            -- Some distributions omit parsers; preserve syntax highlighting
+            -- rather than failing to open the file in that case.
+            pcall(vim.treesitter.start, event.buf, "markdown")
+        end,
     })
+else
+    local ts_ok, ts = pcall(require, "nvim-treesitter.configs")
+    if ts_ok then
+        ts.setup({
+            ensure_installed = { "markdown", "markdown_inline" },
+            highlight = { enable = true },
+        })
+    end
 end

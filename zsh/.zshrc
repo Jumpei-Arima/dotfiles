@@ -33,4 +33,17 @@ bindkey "^[[B" down-line-or-beginning-search
 WORDCHARS=''
 
 ### Aliases #####
-alias pbcopy='xsel --clipboard --input'
+if [[ "$(uname)" != "Darwin" ]]; then
+    alias pbcopy='xsel --clipboard --input'
+fi
+
+#### Machine-specific settings (never commit credentials to this repository)
+if [[ -d "$HOME/.local/bin" ]]; then
+    typeset -U path PATH
+    path=("$HOME/.local/bin" $path)
+fi
+for local_config in "$HOME"/.config/zsh/hidden/*.zsh(N); do
+    [[ -r "$local_config" && -f "$local_config" ]] && source "$local_config"
+done
+unset local_config
+[[ ! -r "$HOME/.zshrc.local" ]] || source "$HOME/.zshrc.local"

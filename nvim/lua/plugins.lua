@@ -57,7 +57,11 @@ return packer.startup(function(use)
     use({ "github/copilot.vim" })
 
     -- Markdown preview
-    use({ "nvim-treesitter/nvim-treesitter", run = ":TSUpdate" })
+    -- The legacy configs API supports 0.10/0.11 only. On 0.12 use the
+    -- bundled Markdown parsers and vim.treesitter.start() in init.lua.
+    if vim.fn.has("nvim-0.12") == 0 then
+        use({ "nvim-treesitter/nvim-treesitter", branch = "master", run = ":TSUpdate" })
+    end
     use({ "iamcco/markdown-preview.nvim", run = "cd app && npm install", ft = { "markdown" } })
 
 	-- Automatically set up your configuration after cloning packer.nvim

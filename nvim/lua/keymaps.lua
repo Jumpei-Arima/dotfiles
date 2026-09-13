@@ -18,5 +18,19 @@ keymap("i", "JJ", "<ESC>", opts)
 -- NvimTree
 keymap("n", "<C-n>", ":<C-u>NvimTreeToggle<Return>", opts)
 
--- Markdown preview
-keymap("n", "<Space>m", ":<C-u>MarkdownPreviewToggle<Return>", opts)
+-- Markdown preview is loaded by packer only for Markdown buffers.
+vim.api.nvim_create_autocmd("FileType", {
+    pattern = "markdown",
+    callback = function(event)
+        vim.keymap.set("n", "<Space>m", function()
+            if vim.fn.exists(":MarkdownPreviewToggle") == 2 then
+                vim.cmd("MarkdownPreviewToggle")
+            else
+                vim.notify(
+                    "Markdown preview is unavailable; run :PackerInstall and :PackerCompile",
+                    vim.log.levels.ERROR
+                )
+            end
+        end, { buffer = event.buf, silent = true, desc = "Toggle Markdown preview" })
+    end,
+})
