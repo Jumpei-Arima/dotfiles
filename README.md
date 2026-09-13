@@ -1,7 +1,9 @@
-# dotfiles — Phase 1
+# dotfiles — Phase 2
 
-Existing Ghostty, Zsh, Starship and packer-based Neovim configuration, with a
-non-overwriting GNU Stow installer. Neovim keeps packer and existing keymaps. A small Markdown compatibility fix supports Neovim 0.12.
+Ghostty, Zsh, Starship, Herdr and Neovim configuration with a non-overwriting
+GNU Stow installer. Phase 2 moves Neovim to lazy.nvim and adds language servers,
+completion, formatting, Git helpers, session restore and SSH clipboard support.
+The original visual style and core keymaps remain in place.
 
 ## Install on macOS
 
@@ -16,7 +18,7 @@ cd ~/.dotfiles
 ./install.sh
 ```
 
-Use the branch containing Phase 1 until it is merged into `develop`. If a checkout
+Use the branch containing Phase 2 until it is merged into `develop`. If a checkout
 already exists, use it instead of cloning over it; inspect `git status` first.
 Keep the checkout at its final location: installed links depend on it.
 
@@ -67,7 +69,7 @@ test_home=$(mktemp -d)
 ./install.sh --target "$test_home" --check
 ```
 
-Use `--target` with an existing directory. This Phase 1 layout uses `.config`
+Use `--target` with an existing directory. This Stow layout uses `.config`
 inside that target; a conflicting `XDG_CONFIG_HOME` is rejected rather than
 silently putting configs somewhere the applications will not read them.
 `ZDOTDIR` overrides are not managed; Zsh must read `~/.zshrc` for that package.
@@ -107,7 +109,7 @@ as its single argument. Updating Herdr is a separate deliberate action.
 
 [Herdr installation](https://herdr.dev/docs/install/) and
 [configuration](https://herdr.dev/docs/configuration/) document the supported
-binary and `~/.config/herdr/config.toml` path. Phase 1 keeps onboarding complete
+binary and `~/.config/herdr/config.toml` path. The config keeps onboarding complete
 and selects the Tokyo Night theme without automatic light/dark switching.
 Start `herdr` explicitly; neither Zsh nor Ghostty launches it automatically.
 Ghostty retains its current Ctrl-h/j/k/l split bindings: they still act on
@@ -126,19 +128,43 @@ settings. Keep credentials out of Git. A migration should preserve local setting
 in that file (mode 600) and back up the original `.zshrc` first. Do not copy an old
 common-config loader into `.zshrc.local` if it would load the shared settings twice.
 
-Neovim still uses packer and its existing first-run bootstrap; plugin revisions
-are **not** locked by Pixi. Node/npm are needed for the existing markdown-preview
-build and Copilot. On Neovim 0.12, Markdown uses bundled parsers with `vim.treesitter.start`;
-the old `nvim-treesitter.configs` plugin supports 0.10/0.11 only and is selected
-on those versions via its frozen `master` branch. No lazy.nvim/LSP migration is
-included. A distribution without bundled Markdown parsers falls back to regular
-syntax highlighting.
+## Neovim Phase 2
 
-After changing plugin declarations, use `:PackerInstall` (only missing plugins)
-and `:PackerCompile`, then reopen Neovim. `:PackerSync` also updates existing
-plugins, so it is not needed just to add missing ones. If Packer's Git download
-times out, retry the missing plugin rather than updating the whole plugin set.
-The generated `nvim/plugin/packer_compiled.lua` remains ignored by Git.
+Neovim 0.12 or newer is required. lazy.nvim installs plugins on the first launch
+and `nvim/lazy-lock.json` pins the tested revisions. Mason then installs language
+servers for Lua, Python, C/C++, Go, Bash, JSON, YAML and TypeScript, plus Stylua,
+Ruff, clang-format, shfmt and Prettier. Git, curl and Node/npm must be available.
+The first launch can take a few minutes; progress is visible with `:Lazy` and
+`:Mason`. Neovim uses its own npm cache so package installation does not depend on
+the ownership or state of `~/.npm`.
+
+| Keys | Action |
+| --- | --- |
+| `jj` or `JJ` | Leave Insert mode |
+| `Ctrl-n` | Toggle the file tree |
+| `Space ff` / `fg` / `fb` / `fh` | Find files / text / buffers / help |
+| `gd` / `gr` / `K` | Definition / references / documentation when LSP is attached |
+| `Space rn` / `ca` / `e` | Rename / code action / diagnostic details |
+| `[d` / `]d` | Previous / next diagnostic |
+| `Space fm` | Format the current buffer or visual selection |
+| `]c` / `[c` | Next / previous Git hunk |
+| `Space gp` / `gb` | Preview hunk / show line blame |
+| `Space gd` / `gD` / `gh` | Open diff / close diff / file history |
+| `Space rs` / `rl` / `rd` | Restore project / last session / skip saving this session |
+| `Space m` | Toggle Markdown preview in a Markdown buffer |
+| `Option-l` | Accept a Copilot suggestion |
+
+Formatting is manual by default, so saving a file does not reformat it. The
+existing trailing-whitespace cleanup on save remains enabled. `:ConformInfo`
+shows the formatter selected for the current buffer. `:Lazy sync` installs or
+updates plugins to the lock file, while `:Mason` shows external tools. Use
+`:checkhealth lazy`, `:checkhealth mason` and `:checkhealth vim.lsp` for diagnosis.
+
+Markdown highlighting uses Neovim's bundled parser and the existing preview
+plugin still provides `:MarkdownPreviewToggle`. Local macOS sessions use the
+system clipboard. SSH and Mosh sessions select Neovim's built-in OSC 52 clipboard
+provider so yanks can reach the local terminal clipboard when the terminal allows it.
+The `-u nvim/vanilla_init.lua --noplugin` path remains available for recovery.
 
 ## Validate and maintain
 
@@ -146,7 +172,7 @@ The generated `nvim/plugin/packer_compiled.lua` remains ignored by Git.
 bash -n install.sh scripts/build-stow.sh scripts/install-herdr.sh
 zsh -n zsh/.zshrc
 python3 tests/test_install.py  # Python 3 required only for tests; Pixi must be on PATH
-nvim --headless -i NONE -c 'luafile tests/check_nvim.lua'  # after plugin installation
+nvim --headless -i NONE -c 'luafile tests/check_nvim.lua'  # after plugin/tool installation
 ```
 
 Tests use temporary homes to check dry-run, exact link resolution, repeat installs,
@@ -157,13 +183,16 @@ checkout, rerun the installer to rebuild Stow at its new path and review existin
 links before migrating them. No automatic uninstall or rollback command is
 provided: inspect owned links before manually removing them.
 
-## Mac validation (2026-09-09)
+## Mac validation (2026-09-13)
 
 On macOS 15.6.1 / Apple Silicon: Pixi 0.68.0 consumed the existing lock unchanged;
 Stow 2.4.1 installed all five packages after a separately reviewed backup/migration.
 Zsh retained local settings and native pbcopy. Ghostty 1.3.1 validated its installed
-config. Neovim 0.12.2 loaded nightfox, NvimTree, Telescope, Diffview and packer;
-Markdown parsed and highlighted with its bundled parsers; the preview server returned HTML over localhost HTTP. Herdr 0.9.0 passed a
+config. Neovim 0.12.2 loaded the lazy.nvim lock, Nightfox, NvimTree, Telescope,
+Diffview, completion, formatting and Git helpers. All eight configured language
+servers attached to representative files. Stylua formatted a test buffer, and
+Markdown parsed with its bundled parser while the preview server returned HTML
+over localhost HTTP. Herdr 0.9.0 passed a
 PTY session test: split, detach, reattach with preserved shell state, config reload,
 and shutdown of only the named test session. These are local runtime checks;
 Intel Mac/Linux execution, SSH persistence and interactive GUI appearance have
