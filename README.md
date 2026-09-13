@@ -133,10 +133,10 @@ common-config loader into `.zshrc.local` if it would load the shared settings tw
 Neovim 0.12 or newer is required. lazy.nvim installs plugins on the first launch
 and `nvim/lazy-lock.json` pins the tested revisions. Mason then installs language
 servers for Lua, Python, C/C++, Go, Bash, JSON, YAML and TypeScript, plus Stylua,
-Ruff, clang-format, shfmt and Prettier. Git, curl and Node/npm must be available.
+Ruff, clang-format, shfmt and Prettier. Git, curl and Node/corepack must be available.
 The first launch can take a few minutes; progress is visible with `:Lazy` and
-`:Mason`. Neovim uses its own npm cache so package installation does not depend on
-the ownership or state of `~/.npm`.
+`:Mason`. Neovim uses its own npm, Corepack and Yarn caches so package installation
+does not depend on the ownership or state of their shared user caches.
 
 | Keys | Action |
 | --- | --- |
