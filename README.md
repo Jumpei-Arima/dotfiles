@@ -11,7 +11,7 @@ Install [Pixi](https://pixi.prefix.dev/latest/installation/) 0.68.0 or newer:
 
 ```sh
 brew install pixi
-git clone --branch develop https://github.com/Jumpei-Arima/dotfiles ~/.dotfiles
+git clone https://github.com/Jumpei-Arima/dotfiles ~/.dotfiles
 cd ~/.dotfiles
 ./install.sh --check
 ./install.sh --dry-run
@@ -22,6 +22,65 @@ If a checkout already exists, use it instead of cloning over it; inspect
 `git status` first.
 Keep the checkout at its final location: installed links depend on it.
 
+## Install on Ubuntu
+
+Install the shell packages used by this configuration:
+
+```sh
+sudo apt-get update
+sudo apt-get install -y git curl tar zsh zsh-autosuggestions zsh-syntax-highlighting xsel
+```
+
+Install Pixi and make it available in the current shell:
+
+```sh
+curl -fsSL https://pixi.sh/install.sh | sh
+export PATH="$HOME/.pixi/bin:$PATH"
+pixi --version
+```
+
+Install Starship using its official installer:
+
+```sh
+curl -sS https://starship.rs/install.sh | sh
+starship --version
+```
+
+This configuration requires Neovim 0.12 or newer. Ubuntu's package may be too
+old, so install the official Linux x86_64 archive at the path already included
+by `.zshrc`:
+
+```sh
+work_dir=$(mktemp -d)
+cd "$work_dir"
+curl -fLO https://github.com/neovim/neovim/releases/latest/download/nvim-linux-x86_64.tar.gz
+tar xzf nvim-linux-x86_64.tar.gz
+if [ -e /opt/nvim-linux-x86_64 ]; then
+    echo '/opt/nvim-linux-x86_64 already exists; inspect it before replacing it.'
+else
+    sudo mv nvim-linux-x86_64 /opt/nvim-linux-x86_64
+fi
+/opt/nvim-linux-x86_64/bin/nvim --version
+```
+
+Clone the repository, install the verified Herdr binary, preview the links, and
+then apply them:
+
+```sh
+git clone https://github.com/Jumpei-Arima/dotfiles ~/.dotfiles
+cd ~/.dotfiles
+bash scripts/install-herdr.sh
+./install.sh --check
+./install.sh --dry-run zsh starship nvim herdr
+./install.sh zsh starship nvim herdr
+exec zsh
+```
+
+On an SSH server, Ghostty runs on the local computer and does not need to be
+installed remotely. `./install.sh --check` may therefore report it as missing.
+After confirming that Zsh starts correctly, optionally make it the login shell
+with `chsh -s "$(command -v zsh)"`, then reconnect over SSH.
+
 `install.sh` provisions only installer dependencies. Pixi locks Perl, Make and
 curl in `pixi.lock`. GNU Stow 2.4.1 is built from a SHA-256-verified GNU release
 under `.pixi/stow`; conda-forge does not publish this Stow version for every
@@ -30,7 +89,8 @@ upgrades are performed. Internet access is needed on first use. Dry-run may
 populate `.pixi` and the Pixi cache, but never changes target config files.
 
 The lock covers Apple Silicon, Intel macOS, Linux x86_64 and Linux ARM64.
-Only Apple Silicon has been exercised locally. Bash and tar must be available.
+The installer has been exercised on Apple Silicon macOS and Linux x86_64.
+Bash and tar must be available.
 The bootstrap Pixi version and host applications are not pinned by this lock.
 `pixi run --locked plan` and `pixi run --locked check` are convenience tasks;
 run `./install.sh --check` outside Pixi to inspect the normal host PATH.
@@ -182,18 +242,3 @@ bootstrap the same locked installer tools. Update dependencies deliberately with
 checkout, rerun the installer to rebuild Stow at its new path and review existing
 links before migrating them. No automatic uninstall or rollback command is
 provided: inspect owned links before manually removing them.
-
-## Mac validation (2026-09-13)
-
-On macOS 15.6.1 / Apple Silicon: Pixi 0.68.0 consumed the existing lock unchanged;
-Stow 2.4.1 installed all five packages after a separately reviewed backup/migration.
-Zsh retained local settings and native pbcopy. Ghostty 1.3.1 validated its installed
-config. Neovim 0.12.2 loaded the lazy.nvim lock, Nightfox, NvimTree, Telescope,
-Diffview, completion, formatting and Git helpers. All eight configured language
-servers attached to representative files. Stylua formatted a test buffer, and
-Markdown parsed with its bundled parser while the preview server returned HTML
-over localhost HTTP. Herdr 0.9.0 passed a
-PTY session test: split, detach, reattach with preserved shell state, config reload,
-and shutdown of only the named test session. These are local runtime checks;
-Intel Mac/Linux execution, SSH persistence and interactive GUI appearance have
-not been verified. Existing Ghostty split keybindings are still preserved.
