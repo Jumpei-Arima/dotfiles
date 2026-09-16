@@ -178,6 +178,11 @@ config has been removed from this repo in favour of Herdr; uninstall tmux itself
 separately if it is still installed. Herdr may write settings/onboarding state
 back to its config; inspect `git diff` after using its settings UI.
 
+The [Herdr development workflow](docs/herdr-workflow.md) describes a practical
+workspace layout for Neovim, Claude Code or Codex, tests and logs. It also covers
+agent integrations, Git worktree isolation, detach/reattach, and the recommended
+SSH workflow for Tesla.
+
 On Linux, install Zsh and its autosuggestions/syntax-highlighting packages through
 the OS, plus Ghostty and Starship through their official distributions. The
 existing Zsh config expects plugins under `/usr/share` on Linux, and uses
