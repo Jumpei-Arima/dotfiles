@@ -1,3 +1,11 @@
+# Fall back when the SSH host does not have Ghostty's terminfo.
+# Do this before initializing prompts and line-editing plugins.
+if [[ -n "$SSH_CONNECTION" && "$TERM" == xterm-ghostty ]]; then
+    if ! command infocmp -x "$TERM" >/dev/null 2>&1; then
+        export TERM=xterm-256color
+    fi
+fi
+
 ##### Language/Editor #####
 export LANG=en_US.UTF-8
 export EDITOR=nvim
