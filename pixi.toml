@@ -1,0 +1,17 @@
+[workspace]
+name = "dotfiles"
+version = "0.1.0"
+description = "Locked GNU Stow installer; existing interactive tools stay on the host"
+channels = ["conda-forge"]
+platforms = ["osx-arm64", "osx-64", "linux-64", "linux-aarch64"]
+requires-pixi = ">=0.68.0"
+
+[dependencies]
+perl = ">=5.32,<6"
+make = ">=4,<5"
+curl = ">=8,<9"
+
+[tasks]
+build-stow = "bash scripts/build-stow.sh"
+plan = "bash install.sh --dry-run"
+check = "bash install.sh --check"

@@ -1,0 +1,56 @@
+# =========================
+# Appearance 
+# =========================
+font-size = 10
+theme = TokyoNight
+palette = 8=#626880
+cursor-style = block
+mouse-hide-while-typing = true
+window-padding-balance = true
+window-save-state = always
+window-colorspace = "display-p3"
+
+# =========================
+# Breakline 
+# =========================
+keybind = shift+enter=text:\x1b\r
+
+# =========================
+# Word by word deletion
+# =========================
+keybind = alt+backspace=text:\x1b\x7f
+keybind = shift+backspace=text:\x1b\x7f
+
+# =========================
+# Pane navigation
+# =========================
+keybind = ctrl+h=goto_split:left
+keybind = ctrl+j=goto_split:down
+keybind = ctrl+k=goto_split:up
+keybind = ctrl+l=goto_split:right
+
+# =========================
+# Close pane
+# =========================
+keybind = ctrl+x=close_surface
+
+# =========================
+# Resize panes
+# =========================
+keybind = ctrl+shift+[=resize_split:left,10
+keybind = ctrl+shift+]=resize_split:right,10
+keybind = ctrl+shift+semicolon=resize_split:down,10
+keybind = ctrl+shift+apostrophe=resize_split:up,10
+
+# =========================
+# scroll up/down 
+# =========================
+keybind = ctrl+shift+k=scroll_page_lines:-3
+keybind = ctrl+shift+j=scroll_page_lines:3
+
+# =========================
+# Copy / Paste
+# =========================
+keybind = ctrl+shift+c=copy_to_clipboard
+keybind = ctrl+shift+v=paste_from_clipboard
+clipboard-paste-protection = false

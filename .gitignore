@@ -1,2 +1,6 @@
-plugins/
-undo/
+plugin/
+
+.pixi/
+*.log
+__pycache__/
+*.pyc
